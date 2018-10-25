@@ -16,8 +16,7 @@ namespace RoutedEventDemo {
     public void TextBlock_Click(object sender, MouseEventArgs e) {
       Point p = e.GetPosition(null);
       string MousePosText = string.Format("X = {0}, Y = {1}", p.X, p.Y);
-      if (e.LeftButton == MouseButtonState.Pressed) MessageBox.Show("왼쪽 "
-      + MousePosText);
+      if (e.LeftButton == MouseButtonState.Pressed) MessageBox.Show("왼쪽 " + MousePosText);
       else if (e.RightButton == MouseButtonState.Pressed)
         MessageBox.Show("오른쪽 " + MousePosText);
       else if (e.MiddleButton == MouseButtonState.Pressed)
