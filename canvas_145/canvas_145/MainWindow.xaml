@@ -1,0 +1,15 @@
+﻿<Window x:Class="canvas_145.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:canvas_145"
+        mc:Ignorable="d"
+        Title="Canvas 145" Height="350" Width="525"
+        Loaded="WindowOnLoaded">
+    <Grid>
+        <Canvas HorizontalAlignment="Left" Height="319" Margin="0"
+                VerticalAlignment="Top" Width="517"
+                Name="canvas1"/>
+    </Grid>
+</Window>

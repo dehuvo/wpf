@@ -1,0 +1,10 @@
+﻿<Window x:Class="panel_127.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Button Controls" Height="114" Width="212">
+    <StackPanel Name="stackPanel">
+        <Button Name="btnAddMore" Click="btnAddMore_Click">
+            Add Another Button
+        </Button>
+    </StackPanel>
+</Window>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "twoway_159", "twoway_159\twoway_159.csproj", "{ED750E09-C2D4-45C0-8D21-57D57A9F8390}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED750E09-C2D4-45C0-8D21-57D57A9F8390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED750E09-C2D4-45C0-8D21-57D57A9F8390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED750E09-C2D4-45C0-8D21-57D57A9F8390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED750E09-C2D4-45C0-8D21-57D57A9F8390}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {181D1960-2175-463C-8C26-7289E046613F}
+	EndGlobalSection
+EndGlobal
