@@ -7,7 +7,7 @@ namespace LoginWindow {
     }
 
     private void button_Click(object sender, RoutedEventArgs e) {
-      MessageBox.Show(VMMainWindow.LastName + ":" + VMMainWindow.FirstName);
+      MessageBox.Show(VMMainWindow.LastName + " " + VMMainWindow.FirstName);
     }
   }
 }

@@ -2,34 +2,34 @@
 
 namespace LoginWindow.Model {
   public class User : INotifyPropertyChanged {
-    private string _fisrtname;
+    private string firstname;
     public string FirstName {
       get {
-        return _fisrtname;
+        return firstname;
       }
       set {
-        _fisrtname = value;
+        firstname = value;
         RaisePropertyChange("FirstName");
       }
     }
-    private string _lastname;
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
+    private string lastname;
     public string LastName {
       get {
-        return _lastname;
+        return lastname;
       }
       set {
-        _lastname = value;
+        lastname = value;
         RaisePropertyChange("LastName");
       }
     }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
     public void RaisePropertyChange(string propertyname) {
       if (PropertyChanged != null) {
         PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
       }
     }
-
   }
 }
