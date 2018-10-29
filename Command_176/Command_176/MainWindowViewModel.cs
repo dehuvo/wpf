@@ -16,6 +16,12 @@ namespace Command_176 {
       }
     }
 
+    public string SelectedEmpDetail {
+      get {
+        return "[" + _SelectedEmp.Ename + ", " + _SelectedEmp.Job + "]";
+      }
+    }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string Pname = null) {

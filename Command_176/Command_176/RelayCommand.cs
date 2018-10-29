@@ -13,8 +13,6 @@ namespace Command_176 {
     }
 
     public RelayCommand(Action<object> executeAction, Func<object, bool> canExecute) {
-      //if (executeAction == null) throw new ArgumentNullException("Execute Action was null for ICommanding Operation.");
-      //this.executeAction = executeAction;
       this.executeAction = executeAction ?? throw new ArgumentNullException("Execute Action was null for ICommanding Operation.");
       this.canExecute = canExecute;
     }
@@ -22,14 +20,13 @@ namespace Command_176 {
 
     #region ICommand Member
     public bool CanExecute(object param) {
-      // 사원이름을 입력하지 않으면 Add 버튼은 비활성화 된다.
       if (param?.ToString().Length == 0) return false;
-      bool result = this.canExecute == null ? true : this.canExecute.Invoke(param);
-      return result;
+//      bool result = this.canExecute == null ? true : this.canExecute.Invoke(param);
+//      return result;
+      return this.canExecute == null || this.canExecute.Invoke(param);
     }
 
     public void Execute(object param) {
-      //System.Windows.MessageBox.Show(param.ToString());
       this.executeAction.Invoke(param);
     }
 
