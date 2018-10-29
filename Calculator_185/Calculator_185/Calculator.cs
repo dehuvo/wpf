@@ -9,11 +9,11 @@ namespace Calculator {
     public event PropertyChangedEventHandler PropertyChanged;
 
     public Calculator() {
-      this.AddCharCommand = new AddCharCommand(this);
-      this.DeleteCharCommand = new DeleteCharCommand(this);
-      this.ClearCommand = new ClearCommand(this);
-      this.OperationCommand = new OperationCommand(this);
-      this.CalcCommand = new CalcCommand(this);
+      this.Append = new Append(this);
+      this.Backspace = new Backspace(this);
+      this.Clear = new Clear(this);
+      this.Operator = new Operator(this);
+      this.Calculate = new Calculate(this);
     }
 
     public string InputString {
@@ -39,14 +39,14 @@ namespace Calculator {
       get { return displayText; }
     }
 
-    public string Op { get; set; }
-    public double? Op1 { get; set; }
+    public string Op { get; set; }    // Opertaor
+    public double? Op1 { get; set; }  // Operand 1
 
-    public ICommand AddCharCommand { protected set; get; }
-    public ICommand DeleteCharCommand { protected set; get; }
-    public ICommand ClearCommand { protected set; get; }
-    public ICommand OperationCommand { protected set; get; }
-    public ICommand CalcCommand { protected set; get; }
+    public ICommand Append { protected set; get; }
+    public ICommand Backspace { protected set; get; }
+    public ICommand Clear { protected set; get; }
+    public ICommand Operator { protected set; get; }
+    public ICommand Calculate { protected set; get; }
 
     protected void OnPropertyChanged(string propertyName) {
       if (PropertyChanged != null) {
@@ -55,12 +55,12 @@ namespace Calculator {
     }
   }
 
-  class AddCharCommand : ICommand {
-    private Calculator calculator;
+  class Append : ICommand {
+    private Calculator c;
     public event EventHandler CanExecuteChanged;
     
-    public AddCharCommand(Calculator calculator) {
-      this.calculator = calculator;
+    public Append(Calculator c) {
+      this.c = c;
     }
 
     public bool CanExecute(object parameter) {
@@ -68,15 +68,15 @@ namespace Calculator {
     }
 
     public void Execute(object parameter) {
-      calculator.InputString += parameter;
+      c.InputString += parameter;
     }
   }
 
-  class DeleteCharCommand : ICommand {
-    private Calculator calculator;
+  class Backspace : ICommand {
+    private Calculator c;
 
-    public DeleteCharCommand(Calculator calculator) {
-      this.calculator = calculator;
+    public Backspace(Calculator c) {
+      this.c = c;
     }
 
     public event EventHandler CanExecuteChanged {
@@ -85,24 +85,24 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return calculator.InputString.Length > 0;
+      return c.InputString.Length > 0;
     }
 
     public void Execute(object parameter) {
-      int length = calculator.InputString.Length - 1;
+      int length = c.InputString.Length - 1;
       if (0 < length) {
-        calculator.InputString = calculator.InputString.Substring(0, length);
+        c.InputString = c.InputString.Substring(0, length);
       } else {
-        calculator.InputString = calculator.DisplayText = "";
+        c.InputString = c.DisplayText = "";
       }
     }
   }
 
-  class ClearCommand : ICommand {
-    private Calculator calculator;
+  class Clear : ICommand {
+    private Calculator c;
 
-    public ClearCommand(Calculator calculator) {
-      this.calculator = calculator;
+    public Clear(Calculator c) {
+      this.c = c;
     }
 
     public event EventHandler CanExecuteChanged {
@@ -111,20 +111,20 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return calculator.InputString.Length > 0;
+      return c.InputString.Length > 0;
     }
 
     public void Execute(object parameter) {
-      calculator.InputString = calculator.DisplayText = "";
-      calculator.Op1 = null;
+      c.InputString = c.DisplayText = "";
+      c.Op1 = null;
     }
   }
 
-  class OperationCommand : ICommand {
-    private Calculator calculator;
+  class Operator : ICommand {
+    private Calculator c;
 
-    public OperationCommand(Calculator calculator) {
-      this.calculator = calculator;
+    public Operator(Calculator c) {
+      this.c = c;
     }
 
     public event EventHandler CanExecuteChanged {
@@ -133,24 +133,27 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return calculator.InputString.Length > 0;
+      return 0 < c.InputString.Length || parameter.ToString() == "-";
     }
 
     public void Execute(object parameter) {
-      calculator.Op = parameter.ToString();
+      string op = parameter.ToString();
       double op1;
-      if (double.TryParse(calculator.InputString, out op1)) {
-        calculator.Op1 = op1;
-        calculator.InputString = "";
+      if (double.TryParse(c.InputString, out op1)) {
+        c.Op1 = op1;
+        c.Op = op;
+        c.InputString = "";
+      } else if (c.InputString == "" && op == "-") {
+        c.InputString = "-";
       }
     }
   }
 
-  class CalcCommand : ICommand {
-    private Calculator calculator;
+  class Calculate : ICommand {
+    private Calculator c;
 
-    public CalcCommand(Calculator calculator) {
-      this.calculator = calculator;
+    public Calculate(Calculator c) {
+      this.c = c;
     }
 
     public event EventHandler CanExecuteChanged {
@@ -160,13 +163,14 @@ namespace Calculator {
 
     public bool CanExecute(object parameter) {
       double op2;
-      return calculator.Op1 != null && double.TryParse(calculator.InputString, out op2);
+      return c.Op1 != null && double.TryParse(c.InputString, out op2)
+                           && (c.Op != "/" || op2 != 0);
     }
 
     public void Execute(object parameter) {
-      double op2 = double.Parse(calculator.InputString);
-      calculator.InputString = calculate(calculator.Op, (double) calculator.Op1, op2).ToString();
-      calculator.Op1 = null;
+      double op2 = double.Parse(c.InputString);
+      c.InputString = calculate(c.Op, (double) c.Op1, op2).ToString();
+      c.Op1 = null;
     }
 
     private static double calculate(string op, double op1, double op2) {

@@ -31,41 +31,41 @@
           Text="{Binding DisplayText,Source={StaticResource calculator}}" />
       </Border>
       <Button Content="BACK" Grid.Column="1"
-        Command="{Binding DeleteCharCommand,Source={StaticResource calculator}}" />
+        Command="{Binding Backspace,Source={StaticResource calculator}}" />
       <Button Content="Clear" Grid.Column="2"
-        Command="{Binding ClearCommand,Source={StaticResource calculator}}" />
+        Command="{Binding Clear,Source={StaticResource calculator}}" />
     </Grid>
     <Button Content="1" CommandParameter="1" Grid.Row="1" Grid.Column="0"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="2" CommandParameter="2" Grid.Row="1" Grid.Column="1"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="3" CommandParameter="3" Grid.Row="1" Grid.Column="2"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="+" CommandParameter="+" Grid.Row="1" Grid.Column="3"
-      Command="{Binding OperationCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Operator,Source={StaticResource calculator}}" />
     <Button Content="4" CommandParameter="4" Grid.Row="2" Grid.Column="0"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="5" CommandParameter="5" Grid.Row="2" Grid.Column="1"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="6" CommandParameter="6" Grid.Row="2" Grid.Column="2"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="-" CommandParameter="-" Grid.Row="2" Grid.Column="3"
-      Command="{Binding OperationCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Operator,Source={StaticResource calculator}}" />
     <Button Content="7" CommandParameter="7" Grid.Row="3" Grid.Column="0"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="8" CommandParameter="8" Grid.Row="3" Grid.Column="1"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="9" CommandParameter="9" Grid.Row="3" Grid.Column="2"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
-    <Button Content="*" CommandParameter="*" Grid.Row="3" Grid.Column="3"
-      Command="{Binding OperationCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
+    <Button Content="x" CommandParameter="*" Grid.Row="3" Grid.Column="3"
+      Command="{Binding Operator,Source={StaticResource calculator}}" />
     <Button Content="0" CommandParameter="0" Grid.Row="4" Grid.Column="0"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="." CommandParameter="." Grid.Row="4" Grid.Column="1"
-      Command="{Binding AddCharCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Append,Source={StaticResource calculator}}" />
     <Button Content="=" CommandParameter="=" Grid.Row="4" Grid.Column="2"
-      Command="{Binding CalcCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Calculate,Source={StaticResource calculator}}" />
     <Button Content="/" CommandParameter="/" Grid.Row="4" Grid.Column="3"
-      Command="{Binding OperationCommand,Source={StaticResource calculator}}" />
+      Command="{Binding Operator,Source={StaticResource calculator}}" />
   </Grid>
 </Window>
