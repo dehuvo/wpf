@@ -1,0 +1,23 @@
+﻿<Window x:Class="Command_176.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Command_176"
+        mc:Ignorable="d"
+        Title="MainWindow" SizeToContent="Width">
+  <Window.DataContext>
+    <local:MainWindowViewModel/>
+  </Window.DataContext>
+  <StackPanel>
+    <TextBlock>사원 이름을 입력하세요.</TextBlock>
+    <TextBox x:Name="txtName"/>
+    <Button Command="{Binding AddEmpCommand}"
+            CommandParameter="{Binding Text, ElementName=txtName}">Add</Button>
+    <ListBox ItemsSource="{Binding Emps}" SelectedItem="{Binding SelectedEmp}"
+             DisplayMemberPath="Ename"></ListBox>
+    <Label HorizontalAlignment="Center"
+           Content="{Binding SelectedEmp.Detail}">
+    </Label>
+  </StackPanel>
+</Window>
