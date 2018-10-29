@@ -21,7 +21,9 @@ namespace Calculator {
         if (inputString != value) {
           inputString = value;
           OnPropertyChanged("InputString");
-          this.DisplayText = inputString;
+          if (value != "") {
+            DisplayText = value;
+          }
         }
       }
       get { return inputString; }
@@ -39,7 +41,6 @@ namespace Calculator {
 
     public string Op { get; set; }
     public double? Op1 { get; set; }
-    public double? Op2 { get; set; }
 
     public ICommand AddCharCommand { protected set; get; }
     public ICommand DeleteCharCommand { protected set; get; }
@@ -57,12 +58,15 @@ namespace Calculator {
   class AddCharCommand : ICommand {
     private Calculator calculator;
     public event EventHandler CanExecuteChanged;
+    
     public AddCharCommand(Calculator calculator) {
       this.calculator = calculator;
     }
+
     public bool CanExecute(object parameter) {
       return true;
     }
+
     public void Execute(object parameter) {
       calculator.InputString += parameter;
     }
@@ -74,13 +78,16 @@ namespace Calculator {
     public DeleteCharCommand(Calculator calculator) {
       this.calculator = calculator;
     }
+
     public event EventHandler CanExecuteChanged {
       add { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
       return calculator.InputString.Length > 0;
     }
+
     public void Execute(object parameter) {
       calculator.InputString = calculator.InputString.Substring(0,
      calculator.InputString.Length - 1);
@@ -89,38 +96,49 @@ namespace Calculator {
 
   class ClearCommand : ICommand {
     private Calculator calculator;
+
     public ClearCommand(Calculator calculator) {
       this.calculator = calculator;
     }
+
     public event EventHandler CanExecuteChanged {
       add { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
       return calculator.InputString.Length > 0;
     }
+
     public void Execute(object parameter) {
       calculator.InputString = calculator.DisplayText = "";
-      calculator.Op1 = calculator.Op2 = null;
+      calculator.Op1 = null;
     }
   }
 
   class OperationCommand : ICommand {
     private Calculator calculator;
+
     public OperationCommand(Calculator calculator) {
       this.calculator = calculator;
     }
+
     public event EventHandler CanExecuteChanged {
       add { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
       return calculator.InputString.Length > 0;
     }
+
     public void Execute(object parameter) {
       calculator.Op = parameter.ToString();
-      calculator.Op1 = Convert.ToDouble(calculator.InputString);
-      calculator.InputString = "";
+      double op1;
+      if (double.TryParse(calculator.InputString, out op1)) {
+        calculator.Op1 = op1;
+        calculator.InputString = "";
+      }
     }
   }
 
@@ -137,12 +155,13 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return calculator.Op1 != null && 0 < calculator.InputString.Length;
+      double op2;
+      return calculator.Op1 != null && double.TryParse(calculator.InputString, out op2);
     }
-    
+
     public void Execute(object parameter) {
-      calculator.Op2 = Convert.ToDouble(calculator.InputString);
-      calculator.InputString = calculate(calculator.Op, (double) calculator.Op1, (double) calculator.Op2).ToString();
+      double op2 = double.Parse(calculator.InputString);
+      calculator.InputString = calculate(calculator.Op, (double) calculator.Op1, op2).ToString();
       calculator.Op1 = null;
     }
 
