@@ -89,8 +89,12 @@ namespace Calculator {
     }
 
     public void Execute(object parameter) {
-      calculator.InputString = calculator.InputString.Substring(0,
-     calculator.InputString.Length - 1);
+      int length = calculator.InputString.Length - 1;
+      if (0 < length) {
+        calculator.InputString = calculator.InputString.Substring(0, length);
+      } else {
+        calculator.InputString = calculator.DisplayText = "";
+      }
     }
   }
 
