@@ -2,10 +2,9 @@
   class Emp {
     public string Ename { get; set; }
     public string Job { get; set; }
-    public string Detail {
-      get {
+    
+    public override string ToString() {
         return "[" + Ename + ", " + Job + "]";
-      }
     }
   }
 }

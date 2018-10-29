@@ -16,8 +16,6 @@
             CommandParameter="{Binding Text, ElementName=txtName}">Add</Button>
     <ListBox ItemsSource="{Binding Emps}" SelectedItem="{Binding SelectedEmp}"
              DisplayMemberPath="Ename"></ListBox>
-    <Label HorizontalAlignment="Center"
-           Content="{Binding SelectedEmp.Detail}">
-    </Label>
+    <Label Content="{Binding SelectedEmp} HorizontalAlignment="Center"/>
   </StackPanel>
 </Window>
