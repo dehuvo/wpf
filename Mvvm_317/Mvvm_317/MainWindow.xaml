@@ -1,0 +1,51 @@
+﻿<Window x:Class="Mvvm_317.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Mvvm_317.ViewModel"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="450" Width="450"
+        DataContext="{DynamicResource ViewModelMain}">
+  <Window.Resources>
+    <vm:ViewModelMain x:Key="ViewModelMain"/>
+  </Window.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <GroupBox Header="Classic INotifyPropertyChanged Example"
+              HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <ListBox ItemsSource="{Binding Emps}"
+                       SelectedItem="{Binding SelectedEmp}" DisplayMemberPath="Ename"
+                       HorizontalAlignment="Left"/>
+              <DataGrid HorizontalAlignment="Left" Margin="5,0,0,0"
+                ItemsSource="{Binding Emps}" SelectedItem="{Binding SelectedEmp}"/>
+              <ComboBox DisplayMemberPath="Ename" Margin="5,0,0,5" VerticalAlignment="Top"
+                ItemsSource="{Binding Emps}" SelectedItem="{Binding SelectedEmp}"/>
+            </StackPanel>
+            <TextBox x:Name="tb1" Margin="5"
+              Text="{Binding TextProperty, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock FontWeight="Bold" Margin="5" Text="The TextBox says '">
+              <Run Text="{Binding TextProperty}"/>
+              <Run Text="'"/>
+            </TextBlock>
+          </StackPanel>
+        </ScrollViewer>
+        <Button Grid.Row="1" Content="Add Emp" Margin="5"
+                Command="{Binding AddEmpCommand}" Focusable="False"
+                CommandParameter="{Binding Text, ElementName=tb1}"/>
+      </Grid>
+    </GroupBox>
+    <Button Content="종료" VerticalAlignment="Top"
+            HorizontalAlignment="Right" FontWeight="Bold" Foreground="Red"
+            Click="Button_Click" Grid.Row="1" Margin="5"/>
+  </Grid>
+</Window>
