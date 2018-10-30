@@ -1,0 +1,29 @@
+﻿<Window x:Class="Style_278.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Style_278"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+  <StackPanel>
+    <StackPanel.Resources>
+      <Style TargetType="{x:Type Button}">
+        <Setter Property="Control.FontSize" Value="22" />
+        <Setter Property="Control.Foreground" Value="Red" />
+        <Setter Property="Control.HorizontalAlignment" Value="Center" />
+        <Setter Property="Control.Margin" Value="30" />
+        <Setter Property="Control.Padding" Value="20, 10, 20, 10" />
+      </Style>
+    </StackPanel.Resources>
+    <Button>
+      버튼 테스트1
+    </Button>
+    <TextBlock>
+      텍스트 블록 테스트
+    </TextBlock>
+    <Button>
+      버튼 테스트2
+    </Button>
+  </StackPanel>
+</Window>
