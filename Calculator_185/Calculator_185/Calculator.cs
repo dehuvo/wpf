@@ -111,7 +111,7 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return c.InputString.Length > 0;
+      return 0 < c.InputString.Length;
     }
 
     public void Execute(object parameter) {
@@ -144,7 +144,7 @@ namespace Calculator {
         c.Op = op;
         c.InputString = "";
       } else if (c.InputString == "" && op == "-") {
-        c.InputString = "-";
+        c.InputString = op;
       }
     }
   }
