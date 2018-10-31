@@ -4,17 +4,25 @@ using System.Windows.Input;
 
 namespace Calculator {
   public class Calculator : INotifyPropertyChanged {
-    string inputString = "";
-    string displayText = "";
-    public event PropertyChangedEventHandler PropertyChanged;
+    public ICommand Append { protected set; get; }
+    public ICommand Backspace { protected set; get; }
+    public ICommand Clear { protected set; get; }
+    public ICommand Operator { protected set; get; }
+    public ICommand Calculate { protected set; get; }
 
     public Calculator() {
-      this.Append = new Append(this);
-      this.Backspace = new Backspace(this);
-      this.Clear = new Clear(this);
-      this.Operator = new Operator(this);
-      this.Calculate = new Calculate(this);
+      Append = new Append(this);
+      Backspace = new Backspace(this);
+      Clear = new Clear(this);
+      Operator = new Operator(this);
+      Calculate = new Calculate(this);
     }
+
+    public string Op { get; set; }    // Opertaor
+    public double? Op1 { get; set; }  // Operand 1
+
+    string inputString = "";
+    string displayText = "";
 
     public string InputString {
       internal set {
@@ -39,14 +47,7 @@ namespace Calculator {
       get { return displayText; }
     }
 
-    public string Op { get; set; }    // Opertaor
-    public double? Op1 { get; set; }  // Operand 1
-
-    public ICommand Append { protected set; get; }
-    public ICommand Backspace { protected set; get; }
-    public ICommand Clear { protected set; get; }
-    public ICommand Operator { protected set; get; }
-    public ICommand Calculate { protected set; get; }
+    public event PropertyChangedEventHandler PropertyChanged;
 
     protected void OnPropertyChanged(string propertyName) {
       if (PropertyChanged != null) {
@@ -57,14 +58,18 @@ namespace Calculator {
 
   class Append : ICommand {
     private Calculator c;
-    public event EventHandler CanExecuteChanged;
     
     public Append(Calculator c) {
       this.c = c;
     }
 
+    public event EventHandler CanExecuteChanged {
+      add { CommandManager.RequerySuggested += value; }
+      remove { CommandManager.RequerySuggested -= value; }
+    }
+
     public bool CanExecute(object parameter) {
-      return true;
+      return c.InputString.IndexOf('.') < 0 || (string) parameter != ".";
     }
 
     public void Execute(object parameter) {
@@ -85,7 +90,7 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return c.InputString.Length > 0;
+      return 0 < c.InputString.Length;
     }
 
     public void Execute(object parameter) {
@@ -133,18 +138,18 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return 0 < c.InputString.Length || parameter.ToString() == "-";
+      double op1;
+      return c.InputString == "" && (string) parameter == "-" ||
+             c.Op1 == null && double.TryParse(c.InputString, out op1);
     }
 
     public void Execute(object parameter) {
-      string op = parameter.ToString();
-      double op1;
-      if (double.TryParse(c.InputString, out op1)) {
-        c.Op1 = op1;
-        c.Op = op;
+      if (c.InputString == "") {
+        c.InputString = "-";
+      } else {
+        c.Op1 = double.Parse(c.InputString);
+        c.Op = (string) parameter;
         c.InputString = "";
-      } else if (c.InputString == "" && op == "-") {
-        c.InputString = op;
       }
     }
   }
