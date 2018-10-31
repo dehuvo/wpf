@@ -8,9 +8,24 @@
   </Window.Resources>
   <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
     <Grid.Resources>
-      <Style TargetType="{x:Type Button}">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="FontWeight" Value="Bold" />
+      <Style x:Key="Font">
+        <Setter Property="Button.FontSize" Value="20" />
+        <Setter Property="Button.FontWeight" Value="Bold" />
+      </Style>
+      <Style x:Key="A" BasedOn="{StaticResource Font}">
+        <Setter Property="Button.Command" Value="{Binding Append,Source={StaticResource calculator}}" />
+      </Style>
+      <Style x:Key="O" BasedOn="{StaticResource Font}">
+        <Setter Property="Button.Command" Value="{Binding Operator,Source={StaticResource calculator}}" />
+      </Style>
+      <Style x:Key="E" BasedOn="{StaticResource Font}">
+        <Setter Property="Button.Command" Value="{Binding Calculate,Source={StaticResource calculator}}" />
+      </Style>
+      <Style x:Key="Back" BasedOn="{StaticResource Font}">
+        <Setter Property="Button.Command" Value="{Binding Backspace,Source={StaticResource calculator}}" />
+      </Style>
+      <Style x:Key="Clear" BasedOn="{StaticResource Font}">
+        <Setter Property="Button.Command" Value="{Binding Clear,Source={StaticResource calculator}}" />
       </Style>
     </Grid.Resources>
     <Grid.RowDefinitions>
@@ -34,44 +49,26 @@
       </Grid.ColumnDefinitions>
       <Border BorderThickness="1" BorderBrush="Black">
         <TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"
-          Text="{Binding DisplayText,Source={StaticResource calculator}}" />
+                   Text="{Binding DisplayText,Source={StaticResource calculator}}" />
       </Border>
-      <Button Command="{Binding Backspace,Source={StaticResource calculator}}"
-        Content="Back" Grid.Column="1" />
-      <Button Command="{Binding Clear,Source={StaticResource calculator}}"
-        Content="Clear" Grid.Column="2" />
+      <Button Content="Back"  Style="{StaticResource Back}"  Grid.Column="1" />
+      <Button Content="Clear" Style="{StaticResource Clear}" Grid.Column="2" />
     </Grid>
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="1" CommandParameter="1" Grid.Row="1" Grid.Column="0" />
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="2" CommandParameter="2" Grid.Row="1" Grid.Column="1" />
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="3" CommandParameter="3" Grid.Row="1" Grid.Column="2" />
-    <Button Command="{Binding Operator,Source={StaticResource calculator}}"
-      Content="+" CommandParameter="+" Grid.Row="1" Grid.Column="3" />
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="4" CommandParameter="4" Grid.Row="2" Grid.Column="0" />
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="5" CommandParameter="5" Grid.Row="2" Grid.Column="1" />
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="6" CommandParameter="6" Grid.Row="2" Grid.Column="2" />
-    <Button Command="{Binding Operator,Source={StaticResource calculator}}"
-      CommandParameter="-" Grid.Row="2" Grid.Column="3">&#x2212;</Button>
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="7" CommandParameter="7" Grid.Row="3" Grid.Column="0" />
-    <Button Content="8" CommandParameter="8" Grid.Row="3" Grid.Column="1"
-      Command="{Binding Append,Source={StaticResource calculator}}" />
-    <Button Content="9" CommandParameter="9" Grid.Row="3" Grid.Column="2"
-      Command="{Binding Append,Source={StaticResource calculator}}" />
-    <Button Command="{Binding Operator,Source={StaticResource calculator}}"
-      CommandParameter="*" Grid.Row="3" Grid.Column="3">&#x00D7;</Button>
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="0" CommandParameter="0" Grid.Row="4" Grid.Column="0" />
-    <Button Command="{Binding Append,Source={StaticResource calculator}}"
-      Content="." CommandParameter="." Grid.Row="4" Grid.Column="1" />
-    <Button Command="{Binding Calculate,Source={StaticResource calculator}}"
-      Content="=" CommandParameter="=" Grid.Row="4" Grid.Column="2" />
-    <Button Command="{Binding Operator,Source={StaticResource calculator}}"
-      CommandParameter="/" Grid.Row="4" Grid.Column="3">&#x00F7;</Button>
+    <Button Content="1" CommandParameter="1" Style="{StaticResource A}" Grid.Row="1" Grid.Column="0" />
+    <Button Content="2" CommandParameter="2" Style="{StaticResource A}" Grid.Row="1" Grid.Column="1" />
+    <Button Content="3" CommandParameter="3" Style="{StaticResource A}" Grid.Row="1" Grid.Column="2" />
+    <Button Content="+" CommandParameter="+" Style="{StaticResource O}" Grid.Row="1" Grid.Column="3" />
+    <Button Content="4" CommandParameter="4" Style="{StaticResource A}" Grid.Row="2" Grid.Column="0" />
+    <Button Content="5" CommandParameter="5" Style="{StaticResource A}" Grid.Row="2" Grid.Column="1" />
+    <Button Content="6" CommandParameter="6" Style="{StaticResource A}" Grid.Row="2" Grid.Column="2" />
+    <Button CommandParameter="-" Style="{StaticResource O}" Grid.Row="2" Grid.Column="3">&#x2212;</Button>
+    <Button Content="7" CommandParameter="7" Style="{StaticResource A}" Grid.Row="3" Grid.Column="0" />
+    <Button Content="8" CommandParameter="8" Style="{StaticResource A}" Grid.Row="3" Grid.Column="1" />
+    <Button Content="9" CommandParameter="9" Style="{StaticResource A}" Grid.Row="3" Grid.Column="2" />
+    <Button CommandParameter="*" Style="{StaticResource O}" Grid.Row="3" Grid.Column="3">&#x00D7;</Button>
+    <Button Content="0" CommandParameter="0" Style="{StaticResource A}" Grid.Row="4" Grid.Column="0" />
+    <Button Content="." CommandParameter="." Style="{StaticResource A}" Grid.Row="4" Grid.Column="1" />
+    <Button Content="=" CommandParameter="=" Style="{StaticResource E}" Grid.Row="4" Grid.Column="2" />
+    <Button CommandParameter="/" Style="{StaticResource O}" Grid.Row="4" Grid.Column="3">&#x00F7;</Button>
   </Grid>
 </Window>
