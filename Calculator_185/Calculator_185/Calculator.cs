@@ -4,21 +4,21 @@ using System.Windows.Input;
 
 namespace Calculator {
   public class Calculator : INotifyPropertyChanged {
-    public ICommand Append { protected set; get; }
+    public ICommand Append    { protected set; get; }
     public ICommand Backspace { protected set; get; }
-    public ICommand Clear { protected set; get; }
-    public ICommand Operator { protected set; get; }
+    public ICommand Clear     { protected set; get; }
+    public ICommand Operator  { protected set; get; }
     public ICommand Calculate { protected set; get; }
 
     public Calculator() {
-      Append = new Append(this);
+      Append    = new Append(this);
       Backspace = new Backspace(this);
-      Clear = new Clear(this);
-      Operator = new Operator(this);
+      Clear     = new Clear(this);
+      Operator  = new Operator(this);
       Calculate = new Calculate(this);
     }
 
-    public string Op { get; set; }    // Opertaor
+    public string  Op  { get; set; }  // Opertaor
     public double? Op1 { get; set; }  // Operand 1
 
     string inputString = "";
@@ -64,7 +64,7 @@ namespace Calculator {
     }
 
     public event EventHandler CanExecuteChanged {
-      add { CommandManager.RequerySuggested += value; }
+      add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
 
@@ -85,7 +85,7 @@ namespace Calculator {
     }
 
     public event EventHandler CanExecuteChanged {
-      add { CommandManager.RequerySuggested += value; }
+      add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
 
@@ -111,7 +111,7 @@ namespace Calculator {
     }
 
     public event EventHandler CanExecuteChanged {
-      add { CommandManager.RequerySuggested += value; }
+      add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
 
@@ -133,7 +133,7 @@ namespace Calculator {
     }
 
     public event EventHandler CanExecuteChanged {
-      add { CommandManager.RequerySuggested += value; }
+      add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
 
@@ -162,7 +162,7 @@ namespace Calculator {
     }
 
     public event EventHandler CanExecuteChanged {
-      add { CommandManager.RequerySuggested += value; }
+      add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
 
