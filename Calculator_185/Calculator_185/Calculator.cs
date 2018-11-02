@@ -11,29 +11,34 @@ namespace Calculator {
     }
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public string InputString {
+    public string Input {
       internal set {
-        if (inputString != value) {
-          inputString = value;
-          OnPropertyChanged("InputString");
+        if (input != value) {
+          input = value;
+          OnPropertyChanged("Input");
           if (value != "") {
-            DisplayText = value;
+            Display = value;
           }
         }
       }
-      get { return inputString; }
+      get { return input; }
     }
-    public string DisplayText {
+    public string Display {
       internal set {
-        if (displayText != value) {
-          displayText = value;
-          OnPropertyChanged("DisplayText");
+        if (display != value) {
+          display = value;
+          OnPropertyChanged("Display");
         }
       }
-      get { return displayText; }
+      get { return display; }
     }
-    private string inputString = "";
-    private string displayText = "";
+    private string   input = "";
+    private string display = "";
+
+    public bool isNumber() {
+      return input != "" && input != "." && input != "-" && input != "-."; 
+    }
+    public double Number { get { return double.Parse(input);} }
 
     public string  Op  { get; set; }  // Opertaor
     public double? Op1 { get; set; }  // Operand 1
@@ -57,12 +62,15 @@ namespace Calculator {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
-      return c.InputString.IndexOf('.') < 0 || (string) parameter != ".";
+      return c.Input.IndexOf('.') < 0 || (string) parameter != ".";
     }
+
     public void Execute(object parameter) {
-      c.InputString += parameter;
+      c.Input += parameter;
     }
+
     public Append(Calculator c) {
       this.c = c;
     }
@@ -74,17 +82,20 @@ namespace Calculator {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
-      return 0 < c.InputString.Length;
+      return 0 < c.Input.Length;
     }
+
     public void Execute(object parameter) {
-      int length = c.InputString.Length - 1;
+      int length = c.Input.Length - 1;
       if (0 < length) {
-        c.InputString = c.InputString.Substring(0, length);
+        c.Input = c.Input.Substring(0, length);
       } else {
-        c.InputString = c.DisplayText = "";
+        c.Input = c.Display = "";
       }
     }
+
     public Backspace(Calculator c) {
       this.c = c;
     }
@@ -96,13 +107,16 @@ namespace Calculator {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
-      return 0 < c.InputString.Length;
+      return 0 < c.Input.Length;
     }
+
     public void Execute(object parameter) {
-      c.InputString = c.DisplayText = "";
+      c.Input = c.Display = "";
       c.Op1 = null;
     }
+
     public Clear(Calculator c) {
       this.c = c;
     }
@@ -114,20 +128,22 @@ namespace Calculator {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
-      double op1;
-      return c.InputString == "" && (string) parameter == "-" ||
-             c.Op1 == null && double.TryParse(c.InputString, out op1);
+      return c.Input == "" && (string) parameter == "-" ||
+             c.Op1 == null && c.isNumber();
     }
+
     public void Execute(object parameter) {
-      if (c.InputString == "") {
-        c.InputString = "-";
+      if (c.Input == "") {
+        c.Input = "-";
       } else {
-        c.Op1 = double.Parse(c.InputString);
-        c.Op = (string) parameter;
-        c.InputString = "";
+        c.Op1   = c.Number;
+        c.Op    = (string) parameter;
+        c.Input = "";
       }
     }
+
     public Operator(Calculator c) {
       this.c = c;
     }
@@ -139,16 +155,16 @@ namespace Calculator {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+
     public bool CanExecute(object parameter) {
-      double op2;
-      return c.Op1 != null && double.TryParse(c.InputString, out op2)
-                           && (c.Op != "/" || op2 != 0);
+      return c.Op1 != null && c.isNumber() && (c.Op != "/" || c.Number != 0);
     }
+
     public void Execute(object parameter) {
-      double op2 = double.Parse(c.InputString);
-      c.InputString = calculate(c.Op, (double) c.Op1, op2).ToString();
+      c.Input = calculate(c.Op, (double) c.Op1, c.Number).ToString();
       c.Op1 = null;
     }
+    
     private static double calculate(string op, double op1, double op2) {
       switch (op) {
         case "+": return op1 + op2;
@@ -158,6 +174,7 @@ namespace Calculator {
       }
       return 0;
     }
+
     public Calculate(Calculator c) {
       this.c = c;
     }
