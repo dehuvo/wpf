@@ -84,7 +84,7 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return 0 < c.Input.Length;
+      return c.Input != "";
     }
 
     public void Execute(object parameter) {
@@ -109,7 +109,7 @@ namespace Calculator {
     }
 
     public bool CanExecute(object parameter) {
-      return 0 < c.Input.Length;
+      return c.Display != "";
     }
 
     public void Execute(object parameter) {
@@ -136,10 +136,10 @@ namespace Calculator {
 
     public void Execute(object parameter) {
       if (c.Input == "") {
-        c.Input = "-";
+        c.Input = (string) parameter;
       } else {
-        c.Op1   = c.Number;
         c.Op    = (string) parameter;
+        c.Op1   = c.Number;
         c.Input = "";
       }
     }
@@ -164,7 +164,7 @@ namespace Calculator {
       c.Input = calculate(c.Op, (double) c.Op1, c.Number).ToString();
       c.Op1 = null;
     }
-    
+
     private static double calculate(string op, double op1, double op2) {
       switch (op) {
         case "+": return op1 + op2;
