@@ -4,13 +4,6 @@ using System.Windows.Input;
 
 namespace Calculator {
   public class Calculator : INotifyPropertyChanged {
-    protected void OnPropertyChanged(string propertyName) {
-      if (PropertyChanged != null) {
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-      }
-    }
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public string Input {
       internal set {
         if (input != value) {
@@ -32,57 +25,39 @@ namespace Calculator {
       }
       get { return display; }
     }
-    private string   input = "";
+    private string input   = "";
     private string display = "";
 
-    public bool isNumber() {
+    public bool IsNumber() {
       return input != "" && input != "." && input != "-" && input != "-."; 
     }
-    public double Number { get { return double.Parse(input);} }
+    public double Number { get { return double.Parse(input); } }
 
     public string  Op  { get; set; }  // Opertaor
     public double? Op1 { get; set; }  // Operand 1
 
     public Calculator() {
-      Append    = new Append(this);
-      Backspace = new Backspace(this);
-      Clear     = new Clear(this);
-      Operator  = new Operator(this);
-      Calculate = new Calculate(this);
+      Back     = new Back(this);
+      Clear    = new Clear(this);
+      Digit    = new Digit(this);
+      Operator = new Operator(this);
+      Equal    = new Equal(this);
     }
-    public ICommand Append    { protected set; get; }
-    public ICommand Backspace { protected set; get; }
-    public ICommand Clear     { protected set; get; }
-    public ICommand Operator  { protected set; get; }
-    public ICommand Calculate { protected set; get; }
+    public ICommand Back     { protected set; get; }
+    public ICommand Clear    { protected set; get; }
+    public ICommand Digit    { protected set; get; }
+    public ICommand Operator { protected set; get; }
+    public ICommand Equal    { protected set; get; }
+
+    protected void OnPropertyChanged(string propertyName) {
+      if (PropertyChanged != null) {
+        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+      }
+    }
+    public event PropertyChangedEventHandler PropertyChanged;
   }
 
-  class Append : ICommand {
-    public event EventHandler CanExecuteChanged {
-      add    { CommandManager.RequerySuggested += value; }
-      remove { CommandManager.RequerySuggested -= value; }
-    }
-
-    public bool CanExecute(object parameter) {
-      return c.Input.IndexOf('.') < 0 || (string) parameter != ".";
-    }
-
-    public void Execute(object parameter) {
-      c.Input += parameter;
-    }
-
-    public Append(Calculator c) {
-      this.c = c;
-    }
-    private Calculator c;
-  }
-
-  class Backspace : ICommand {
-    public event EventHandler CanExecuteChanged {
-      add    { CommandManager.RequerySuggested += value; }
-      remove { CommandManager.RequerySuggested -= value; }
-    }
-
+  class Back : ICommand {
     public bool CanExecute(object parameter) {
       return c.Input != "";
     }
@@ -96,18 +71,18 @@ namespace Calculator {
       }
     }
 
-    public Backspace(Calculator c) {
+    public Back(Calculator c) {
       this.c = c;
     }
     private Calculator c;
-  }
 
-  class Clear : ICommand {
     public event EventHandler CanExecuteChanged {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+  }
 
+  class Clear : ICommand {
     public bool CanExecute(object parameter) {
       return c.Display != "";
     }
@@ -121,17 +96,37 @@ namespace Calculator {
       this.c = c;
     }
     private Calculator c;
-  }
 
-  class Operator : ICommand {
     public event EventHandler CanExecuteChanged {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+  }
 
+  class Digit : ICommand {
+    public bool CanExecute(object parameter) {
+      return c.Input.IndexOf('.') < 0 || (string) parameter != ".";
+    }
+
+    public void Execute(object parameter) {
+      c.Input += parameter;
+    }
+
+    public Digit(Calculator c) {
+      this.c = c;
+    }
+    private Calculator c;
+
+    public event EventHandler CanExecuteChanged {
+      add    { CommandManager.RequerySuggested += value; }
+      remove { CommandManager.RequerySuggested -= value; }
+    }
+  }
+
+  class Operator : ICommand {
     public bool CanExecute(object parameter) {
       return c.Input == "" && (string) parameter == "-" ||
-             c.Op1 == null && c.isNumber();
+             c.Op1 == null && c.IsNumber();
     }
 
     public void Execute(object parameter) {
@@ -148,16 +143,16 @@ namespace Calculator {
       this.c = c;
     }
     private Calculator c;
-  }
 
-  class Calculate : ICommand {
     public event EventHandler CanExecuteChanged {
       add    { CommandManager.RequerySuggested += value; }
       remove { CommandManager.RequerySuggested -= value; }
     }
+  }
 
+  class Equal : ICommand {
     public bool CanExecute(object parameter) {
-      return c.Op1 != null && c.isNumber() && (c.Op != "/" || c.Number != 0);
+      return c.Op1 != null && c.IsNumber() && (c.Number != 0 || c.Op != "/");
     }
 
     public void Execute(object parameter) {
@@ -175,9 +170,14 @@ namespace Calculator {
       return 0;
     }
 
-    public Calculate(Calculator c) {
+    public Equal(Calculator c) {
       this.c = c;
     }
     private Calculator c;
+
+    public event EventHandler CanExecuteChanged {
+      add    { CommandManager.RequerySuggested += value; }
+      remove { CommandManager.RequerySuggested -= value; }
+    }
   }
 }
