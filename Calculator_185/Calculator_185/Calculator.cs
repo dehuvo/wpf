@@ -8,7 +8,6 @@ namespace Calculator {
       internal set {
         if (input != value) {
           input = value;
-          OnPropertyChanged("Input");
           if (value != "") {
             Display = value;
           }
@@ -20,7 +19,7 @@ namespace Calculator {
       internal set {
         if (display != value) {
           display = value;
-          OnPropertyChanged("Display");
+          notifyPropertyChanged("Display");
         }
       }
       get { return display; }
@@ -49,7 +48,7 @@ namespace Calculator {
     public ICommand Operator { protected set; get; }
     public ICommand Equal    { protected set; get; }
 
-    protected void OnPropertyChanged(string propertyName) {
+    private void notifyPropertyChanged(string propertyName) {
       if (PropertyChanged != null) {
         PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
       }
