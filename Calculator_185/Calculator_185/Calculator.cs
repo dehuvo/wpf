@@ -42,11 +42,11 @@ namespace Calculator {
       Operator = new Operator(this);
       Equal    = new Equal(this);
     }
-    public ICommand Back     { protected set; get; }
-    public ICommand Clear    { protected set; get; }
-    public ICommand Digit    { protected set; get; }
-    public ICommand Operator { protected set; get; }
-    public ICommand Equal    { protected set; get; }
+    public ICommand Back     { private set; get; }
+    public ICommand Clear    { private set; get; }
+    public ICommand Digit    { private set; get; }
+    public ICommand Operator { private set; get; }
+    public ICommand Equal    { private set; get; }
 
     private void notifyPropertyChanged(string propertyName) {
       if (PropertyChanged != null) {
