@@ -19,12 +19,12 @@ namespace Calculator {
       internal set {
         if (display != value) {
           display = value;
-          notifyPropertyChanged("Display");
+          OnPropertyChanged("Display");
         }
       }
       get { return display; }
     }
-    private string input   = "";
+    private string input = "";
     private string display = "";
 
     public bool IsNumber() {
@@ -48,7 +48,7 @@ namespace Calculator {
     public ICommand Operator { private set; get; }
     public ICommand Equal    { private set; get; }
 
-    private void notifyPropertyChanged(string propertyName) {
+    private void OnPropertyChanged(string propertyName) {
       if (PropertyChanged != null) {
         PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
       }
