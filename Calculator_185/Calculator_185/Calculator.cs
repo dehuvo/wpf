@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
 namespace Calculator {
@@ -19,7 +20,7 @@ namespace Calculator {
       internal set {
         if (display != value) {
           display = value;
-          OnPropertyChanged("Display");
+          OnPropertyChanged();
         }
       }
       get { return display; }
@@ -48,10 +49,8 @@ namespace Calculator {
     public ICommand Operator { private set; get; }
     public ICommand Equal    { private set; get; }
 
-    private void OnPropertyChanged(string propertyName) {
-      if (PropertyChanged != null) {
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-      }
+    private void OnPropertyChanged([CallerMemberName] string name = null) {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
     public event PropertyChangedEventHandler PropertyChanged;
   }
