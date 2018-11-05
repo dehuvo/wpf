@@ -3,33 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Calculator"
         Title="WPF Calculator" Height="330" Width="270">
-  <Window.Resources>
-    <local:Calculator x:Key="vm"/>
-    <Style x:Key="Display">
-      <Setter Property="TextBlock.FontSize" Value="15" />
-      <Setter Property="TextBlock.Text" Value="{Binding Display,Source={StaticResource vm}}" />
-    </Style>
-    <Style x:Key="ButtonFont">
-      <Setter Property="Button.FontSize" Value="20" />
-      <Setter Property="Button.FontWeight" Value="Bold" />
-    </Style>
-    <Style x:Key="Back" BasedOn="{StaticResource ButtonFont}">
-      <Setter Property="Button.Command" Value="{Binding Back,Source={StaticResource vm}}" />
-    </Style>
-    <Style x:Key="Clear" BasedOn="{StaticResource ButtonFont}">
-      <Setter Property="Button.Command" Value="{Binding Clear,Source={StaticResource vm}}" />
-    </Style>
-    <Style x:Key="N" BasedOn="{StaticResource ButtonFont}">
-      <Setter Property="Button.Command" Value="{Binding Digit,Source={StaticResource vm}}" />
-    </Style>
-    <Style x:Key="O" BasedOn="{StaticResource ButtonFont}">
-      <Setter Property="Button.Command" Value="{Binding Operator,Source={StaticResource vm}}" />
-    </Style>
-    <Style x:Key="E" BasedOn="{StaticResource ButtonFont}">
-      <Setter Property="Button.Command" Value="{Binding Equal,Source={StaticResource vm}}" />
-    </Style>
-  </Window.Resources>
   <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid.DataContext>
+      <local:Calculator />
+    </Grid.DataContext>
+    <Grid.Resources>
+      <Style TargetType="Button">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Bold" />
+      </Style>
+    </Grid.Resources>
     <Grid.RowDefinitions>
       <RowDefinition Height="40" />
       <RowDefinition Height="60" />
@@ -43,28 +26,26 @@
       <ColumnDefinition Width="60" />
       <ColumnDefinition Width="60" />
     </Grid.ColumnDefinitions>
-    <Grid Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0">
-      <Border BorderThickness="1" BorderBrush="Black">
-        <TextBlock Style="{StaticResource Display}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-      </Border>
-    </Grid>
-    <Button Content="Back"  Style="{StaticResource Back}"  Grid.Row="0" Grid.Column="2" />
-    <Button Content="Clear" Style="{StaticResource Clear}" Grid.Row="0" Grid.Column="3" />
-    <Button Content="1" CommandParameter="1" Style="{StaticResource N}" Grid.Row="1" Grid.Column="0" />
-    <Button Content="2" CommandParameter="2" Style="{StaticResource N}" Grid.Row="1" Grid.Column="1" />
-    <Button Content="3" CommandParameter="3" Style="{StaticResource N}" Grid.Row="1" Grid.Column="2" />
-    <Button Content="+" CommandParameter="+" Style="{StaticResource O}" Grid.Row="1" Grid.Column="3" />
-    <Button Content="4" CommandParameter="4" Style="{StaticResource N}" Grid.Row="2" Grid.Column="0" />
-    <Button Content="5" CommandParameter="5" Style="{StaticResource N}" Grid.Row="2" Grid.Column="1" />
-    <Button Content="6" CommandParameter="6" Style="{StaticResource N}" Grid.Row="2" Grid.Column="2" />
-    <Button CommandParameter="-" Style="{StaticResource O}" Grid.Row="2" Grid.Column="3">&#x2212;</Button>
-    <Button Content="7" CommandParameter="7" Style="{StaticResource N}" Grid.Row="3" Grid.Column="0" />
-    <Button Content="8" CommandParameter="8" Style="{StaticResource N}" Grid.Row="3" Grid.Column="1" />
-    <Button Content="9" CommandParameter="9" Style="{StaticResource N}" Grid.Row="3" Grid.Column="2" />
-    <Button CommandParameter="*" Style="{StaticResource O}" Grid.Row="3" Grid.Column="3">&#x00D7;</Button>
-    <Button Content="0" CommandParameter="0" Style="{StaticResource N}" Grid.Row="4" Grid.Column="0" />
-    <Button Content="." CommandParameter="." Style="{StaticResource N}" Grid.Row="4" Grid.Column="1" />
-    <Button Content="=" CommandParameter="=" Style="{StaticResource E}" Grid.Row="4" Grid.Column="2" />
-    <Button CommandParameter="/" Style="{StaticResource O}" Grid.Row="4" Grid.Column="3">&#x00F7;</Button>
+    <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+      <TextBlock Text="{Binding Display}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+    </Border>
+    <Button Content="Back"  Command="{Binding Back}"  Grid.Row="0" Grid.Column="2" />
+    <Button Content="Clear" Command="{Binding Clear}" Grid.Row="0" Grid.Column="3" />
+    <Button CommandParameter="1" Command="{Binding Digit}" Grid.Row="1" Grid.Column="0">1</Button>
+    <Button CommandParameter="2" Command="{Binding Digit}" Grid.Row="1" Grid.Column="1">2</Button>
+    <Button CommandParameter="3" Command="{Binding Digit}" Grid.Row="1" Grid.Column="2">3</Button>
+    <Button CommandParameter="+" Command="{Binding Operator}" Grid.Row="1" Grid.Column="3">+</Button>
+    <Button CommandParameter="4" Command="{Binding Digit}" Grid.Row="2" Grid.Column="0">4</Button>
+    <Button CommandParameter="5" Command="{Binding Digit}" Grid.Row="2" Grid.Column="1">5</Button>
+    <Button CommandParameter="6" Command="{Binding Digit}" Grid.Row="2" Grid.Column="2">6</Button>
+    <Button CommandParameter="-" Command="{Binding Operator}" Grid.Row="2" Grid.Column="3">&#x2212;</Button>
+    <Button CommandParameter="7" Command="{Binding Digit}" Grid.Row="3" Grid.Column="0">7</Button>
+    <Button CommandParameter="8" Command="{Binding Digit}" Grid.Row="3" Grid.Column="1">8</Button>
+    <Button CommandParameter="9" Command="{Binding Digit}" Grid.Row="3" Grid.Column="2">9</Button>
+    <Button CommandParameter="*" Command="{Binding Operator}" Grid.Row="3" Grid.Column="3">&#x00D7;</Button>
+    <Button CommandParameter="0" Command="{Binding Digit}" Grid.Row="4" Grid.Column="0">0</Button>
+    <Button CommandParameter="." Command="{Binding Digit}" Grid.Row="4" Grid.Column="1">.</Button>
+    <Button Content="=" Command="{Binding Equal}" Grid.Row="4" Grid.Column="2" />
+    <Button CommandParameter="/" Command="{Binding Operator}" Grid.Row="4" Grid.Column="3">&#x00F7;</Button>
   </Grid>
 </Window>
