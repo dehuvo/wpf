@@ -33,11 +33,8 @@ namespace Calculator {
         return input != "" && input != "." && input != "-" && input != "-.";
       }
     }
-    private double Number {
-      get {
-        return double.Parse(input);
-      }
-    }
+    private double Number { get { return double.Parse(input); } }
+
     private double? Op1;  // Operand 1
     private string  Op;   // Opertaor
  
@@ -70,6 +67,11 @@ namespace Calculator {
     public ICommand Equal    { private set; get; }
 
     private class BackImpl : ICommand {
+      public BackImpl(Calculator c) {
+        this.c = c;
+      }
+      private Calculator c;
+
       public bool CanExecute(object parameter) {
         return c.Input != "";
       }
@@ -83,11 +85,6 @@ namespace Calculator {
         }
       }
 
-      public BackImpl(Calculator c) {
-        this.c = c;
-      }
-      private Calculator c;
-
       public event EventHandler CanExecuteChanged {
         add    { CommandManager.RequerySuggested += value; }
         remove { CommandManager.RequerySuggested -= value; }
@@ -95,6 +92,11 @@ namespace Calculator {
     }
 
     private class ClearImpl : ICommand {
+      public ClearImpl(Calculator c) {
+        this.c = c;
+      }
+      private Calculator c;
+
       public bool CanExecute(object parameter) {
         return c.Display != "";
       }
@@ -104,11 +106,6 @@ namespace Calculator {
         c.Op1 = null;
       }
 
-      public ClearImpl(Calculator c) {
-        this.c = c;
-      }
-      private Calculator c;
-
       public event EventHandler CanExecuteChanged {
         add    { CommandManager.RequerySuggested += value; }
         remove { CommandManager.RequerySuggested -= value; }
@@ -116,6 +113,11 @@ namespace Calculator {
     }
 
     private class DigitImpl : ICommand {
+      public DigitImpl(Calculator c) {
+        this.c = c;
+      }
+      private Calculator c;
+
       public bool CanExecute(object parameter) {
         return c.Input.IndexOf('.') < 0 || (string) parameter != ".";
       }
@@ -124,11 +126,6 @@ namespace Calculator {
         c.Input += parameter;
       }
 
-      public DigitImpl(Calculator c) {
-        this.c = c;
-      }
-      private Calculator c;
-
       public event EventHandler CanExecuteChanged {
         add    { CommandManager.RequerySuggested += value; }
         remove { CommandManager.RequerySuggested -= value; }
@@ -136,6 +133,11 @@ namespace Calculator {
     }
 
     private class OperatorImpl : ICommand {
+      public OperatorImpl(Calculator c) {
+        this.c = c;
+      }
+      private Calculator c;
+
       public bool CanExecute(object parameter) {
         return c.Input == "" && (string) parameter == "-" ||
                c.Op1 == null && c.IsNumber;
@@ -151,11 +153,6 @@ namespace Calculator {
         }
       }
 
-      public OperatorImpl(Calculator c) {
-        this.c = c;
-      }
-      private Calculator c;
-
       public event EventHandler CanExecuteChanged {
         add    { CommandManager.RequerySuggested += value; }
         remove { CommandManager.RequerySuggested -= value; }
@@ -163,6 +160,11 @@ namespace Calculator {
     }
 
     private class EqualImpl : ICommand {
+      public EqualImpl(Calculator c) {
+        this.c = c;
+      }
+      private Calculator c;
+
       public bool CanExecute(object parameter) {
         return c.Op1 != null && c.IsNumber && (c.Number != 0 || c.Op != "/");
       }
@@ -171,11 +173,6 @@ namespace Calculator {
         c.Input = c.calculate((double) c.Op1, c.Number).ToString();
         c.Op1 = null;
       }
-
-      public EqualImpl(Calculator c) {
-        this.c = c;
-      }
-      private Calculator c;
 
       public event EventHandler CanExecuteChanged {
         add    { CommandManager.RequerySuggested += value; }
